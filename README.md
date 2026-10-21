@@ -21,7 +21,7 @@
 - **Problem:** Solo typing sites do not automatically provide a private, lightweight, synchronized race among study-group members.
 - **Idea:** Practice independently by number of pages (1, 2, 3) or time (1, 3, 5 minutes), then challenge friends in 2–8-player rooms with an invite link, lobby readiness, common countdown, synchronized typing progress and ranked finish times.
 - **Non-trivial network problem:** TCP framing, concurrent sessions/rooms, fair progress verification, phase transitions, slow clients, malformed packets, disconnect handling and host migration.
-- **Out of scope:** Imported Typing.com assets; account registration, persistence, multi-game catalog and robust commercial anti-cheat.
+- **Out of scope:** account registration, persistence, multi-game catalog and robust commercial anti-cheat.
 
 See [`docs/proposal.md`](docs/proposal.md).
 

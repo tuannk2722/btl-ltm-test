@@ -74,8 +74,18 @@ async def websocket(request):
     return ws
 
 
+async def style(request):
+    return web.FileResponse(STATIC / 'style.css')
+
+
+async def script(request):
+    return web.FileResponse(STATIC / 'app.js')
+
+
 app = web.Application(client_max_size=16384)
 app.router.add_get('/', home)
+app.router.add_get('/style.css', style)
+app.router.add_get('/app.js', script)
 app.router.add_get('/ws', websocket)
 app.router.add_static('/assets', STATIC, show_index=False)
 
