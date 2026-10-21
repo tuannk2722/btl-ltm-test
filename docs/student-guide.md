@@ -1,0 +1,213 @@
+# Student Guide — Read This First
+
+[![Stars](https://img.shields.io/github/stars/hungdn1701/network-programming-starter?style=social)](https://github.com/hungdn1701/network-programming-starter/stargazers)
+[![Forks](https://img.shields.io/github/forks/hungdn1701/network-programming-starter?style=social)](https://github.com/hungdn1701/network-programming-starter/forks)
+
+> **Course:** Network Programming (INT1433) · PTIT · Instructor: Dr. Hung N. Dang
+>
+> Follow this guide **in order** before you write any code. It takes about 30–60 minutes the first time.
+> Rules and grading are in [`INSTRUCTION.md`](../INSTRUCTION.md); day-to-day development is in
+> [`GETTING_STARTED.md`](../GETTING_STARTED.md).
+
+---
+
+## How the repositories fit together
+
+```mermaid
+flowchart LR
+    S["Public starter<br/>hungdn1701/network-programming-starter"] -->|"⭐ Star + Fork<br/>(every member)"| F["Your fork<br/>public — never put project work here"]
+    S -->|"import as one commit, no history<br/>(one member, once)"| T["Team repository<br/>PRIVATE, created by the LMS"]
+    T -->|"clone<br/>(every member)"| L["Your computer"]
+    S -.->|"apply the update patch<br/>(when the starter is updated)"| T
+```
+
+- The **public starter** is the template, maintained by the instructor.
+- **Your fork** is your bookmark of the starter. Leave it untouched.
+- The **team repository** is where all your work goes. It is private and it is what gets graded.
+
+---
+
+## Step 1 — GitHub account
+
+Use the GitHub account you **linked to your student ID on the LMS**, for the whole course, and commit and push only
+with that account. The LMS uses it to recognise your commits and pull requests as your contribution.
+
+---
+
+## Step 2 — Install the tools
+
+| Tool | Needed for | Install | Check |
+|------|-----------|---------|-------|
+| Git | everything | https://git-scm.com/downloads | `git --version` |
+| Docker Desktop (includes Compose v2) | runs the server and clients | https://docs.docker.com/get-docker/ | `docker compose version` |
+| The language you will use (optional) | running code natively | e.g., JDK, Python, GCC, Node.js, Go | — |
+
+> On Windows, start Docker Desktop and wait for the 🐳 icon before running `docker` commands; use Git Bash or
+> PowerShell for the commands in this guide.
+
+---
+
+## Step 3 — Star and fork the starter (every member)
+
+1. Open https://github.com/hungdn1701/network-programming-starter
+2. Click **⭐ Star**.
+3. Click **Fork** → owner: your personal account → **Create fork**.
+
+You now have `https://github.com/<your-username>/network-programming-starter`. It is public: **do not commit project work to it**.
+Use **Sync fork** on its page whenever you want to see the latest starter.
+
+---
+
+## Step 4 — Set up the team repository
+
+1. **Create or join your team on the LMS** (max 3 members). When the team is created, the LMS creates an
+   **empty private repository** for it in the course organization and sends each member a GitHub invitation.
+2. **Every member accepts the invitation** — from the email GitHub sends, or at https://github.com/notifications
+   (organization invitations also appear at `https://github.com/<course-org>`). Without accepting, you cannot
+   see or push to the repository.
+3. **One member, once,** imports the starter into the empty repository as **a single commit**, so the team
+   repository holds your team's history only, not the starter's:
+
+```bash
+git clone https://github.com/hungdn1701/network-programming-starter.git <team-repo>
+cd <team-repo>
+git checkout --orphan import                       # a branch with no history; the starter files stay staged
+git commit -m "chore: import network-programming-starter"
+git branch -M main                                 # the import becomes main
+git remote rename origin upstream                  # the starter, for updates (Step 7)
+git remote add origin https://github.com/<course-org>/<team-repo>.git
+git push -u origin main
+```
+
+If `git commit` asks who you are, set the name and email of your linked GitHub account once
+(`git config --global user.name "Your Name"` and `git config --global user.email "you@example.com"`), then run it again.
+
+The import commit is the starter itself, not your work: it counts as nobody's contribution ([`INSTRUCTION.md` §8](../INSTRUCTION.md#8-contribution--individual-assessment)).
+
+> Not comfortable with the command line? Do this step together with a teammate — it is only a few commands, and
+> everyone else simply clones the result in Step 5.
+
+Do **not** add a README, license or any other file to the team repository before this step — the push needs it to be empty.
+
+<details>
+<summary><b>Set up your team repository before version 1.2.2?</b> It contains the starter's commit history — remove it once.</summary>
+
+Earlier versions of this step pushed the starter together with its history. One member removes that history and
+keeps every commit of your team. First merge or close open pull requests, and make sure everyone has pushed their work.
+
+```bash
+git checkout main
+git pull origin main
+git fetch upstream                                 # no 'upstream' remote? add it as in Step 5
+git checkout --orphan import $(git merge-base main upstream/main)
+git commit -m "chore: import network-programming-starter"
+git rebase --rebase-merges --onto import $(git merge-base main upstream/main) main
+git branch -D import
+git push --force-with-lease origin main
+```
+
+Then every other member deletes their local folder and clones again (Step 5). Delete branches on GitHub that were
+created before the fix — they still carry the old history. If GitHub rejects the push, contact the instructor.
+
+</details>
+
+---
+
+## Step 5 — Clone and run (every member)
+
+```bash
+git clone https://github.com/<course-org>/<team-repo>.git
+cd <team-repo>
+git remote add upstream https://github.com/hungdn1701/network-programming-starter.git   # skip if you did Step 4 yourself
+```
+
+Then check that everything starts:
+
+```bash
+make init        # creates .env (or: cp .env.example .env)
+make up          # builds and starts the server container
+docker compose ps
+```
+
+The server is only a placeholder until your team chooses a language — see
+[`GETTING_STARTED.md` §4](../GETTING_STARTED.md#4-choose-a-language--dockerfile-examples).
+
+---
+
+## Step 6 — First contribution
+
+1. Create a branch: `git checkout -b docs/team-info`
+2. Fill in the **Team** table and **Problem & Idea** in [`README.md`](../README.md).
+3. Commit and push:
+
+```bash
+git add README.md
+git commit -m "docs: add team info"
+git push -u origin docs/team-info
+```
+
+4. Open a **Pull Request** to `main` on GitHub, ask a teammate to review it, then merge.
+
+From now on, work the same way: **one branch per task → pull request → review → merge**.
+Every member commits from their own linked account — your commits and pull requests are the evidence of your contribution.
+
+---
+
+## Step 7 — Getting starter updates
+
+Your team repository does not share history with the starter, so an update arrives as a patch: the changes between
+the version you have and the new one. Every starter version is a tag (`v1.2.2`, `v1.3.0`, …).
+
+When the instructor announces a new version, read yours from the **Version** line at the top of `INSTRUCTION.md`
+in your team repository, then (example: from 1.2.2 to 1.3.0):
+
+```bash
+git checkout main
+git pull origin main
+git fetch upstream --tags
+git diff v1.2.2 v1.3.0 --output=../starter-update.patch    # your version → the new one; saved outside the repo
+git apply --3way ../starter-update.patch
+rm ../starter-update.patch
+git commit -m "chore: update starter to v1.3.0"
+git push origin main
+```
+
+If `git apply` reports `with conflicts`, a file your team also changed now has conflict markers (`<<<<<<<`):
+edit it, `git add` it, then commit and push as above.
+
+Do **not** run `git pull upstream main`: Git refuses (`refusing to merge unrelated histories`), and forcing it with
+`--allow-unrelated-histories` brings the starter's whole history back.
+
+Keep the `LICENSE` file and the "Based on …" line at the bottom of `README.md`.
+
+---
+
+## What to read next
+
+| Order | Document | Why |
+|:-----:|----------|-----|
+| 1 | [`INSTRUCTION.md`](../INSTRUCTION.md) | Requirements, milestones, grading, AI policy, oral defense |
+| 2 | [`GETTING_STARTED.md`](../GETTING_STARTED.md) | Running the project, workflow by milestone, submission checklist |
+| 3 | [`docs/proposal.md`](proposal.md) | Your first deliverable (M1) |
+| 4 | [`.ai/ai-guide.md`](../.ai/ai-guide.md) | Using AI assistants without failing the oral defense |
+| 5 | [`docs/ai-log.md`](ai-log.md) | Where you record AI use — start from day one |
+
+---
+
+## Common Problems
+
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| `Permission denied` / `403` when pushing | Invitation not accepted, or no write access | Accept the invitation; if it persists, contact the instructor via the LMS |
+| `git push` rejected later in the project | Teammates pushed before you | `git pull --rebase`, then push again |
+| `Repository not found` | Wrong URL, or you have not accepted the invitation yet | Check the URL from the LMS; accept the invitation (email or https://github.com/notifications) |
+| `! [rejected] main -> main (fetch first)` on the first push | The team repository is not empty (e.g., someone added a README) | Ask the instructor to reset it, or `git pull origin main --allow-unrelated-histories`, resolve, push |
+| The team repository shows the instructor's commits | It was set up before version 1.2.2, which pushed the starter's history | Follow **Set up your team repository before version 1.2.2?** in Step 4 |
+| `fatal: refusing to merge unrelated histories` after `git pull upstream main` | The team repository does not share history with the starter | Update with the patch in Step 7; never add `--allow-unrelated-histories` when pulling from `upstream` |
+| Your commits do not show up as yours on the LMS | Commits made with another GitHub account or an email not on your linked account | Use your linked account; check `git config user.email` |
+| `Cannot connect to the Docker daemon` | Docker Desktop is not running | Start Docker Desktop and wait until it is ready |
+| `port is already allocated` | Another program uses the port (e.g., 5000) | Stop that program, or change the port in `.env` |
+| Project work pushed to your **public fork** by mistake | Wrong remote | Push it to the team repository, then delete the fork (Settings → Delete) and fork again; tell the instructor |
+
+> Still stuck? Ask your team first, then the instructor through the LMS. Include the command you ran and the full
+> error message.

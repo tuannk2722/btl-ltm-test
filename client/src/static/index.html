@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0c1120">
+  <title>KeySprint — Multiplayer Typing Arena</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="KeySprint home"><span class="brand-icon">⌨</span><span>key<span class="brand-accent">sprint</span><small>TYPING ARENA</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav aria-label="Main navigation">
+      <button class="nav-item active" data-screen="practice"><span class="nav-symbol">▤</span> Luyện gõ <span class="nav-arrow">›</span></button>
+      <button class="nav-item" data-screen="race"><span class="nav-symbol">⚡</span> Đua tốc độ <span class="live-dot"></span></button>
+    </nav>
+    <div class="sidebar-bottom"><div class="sidebar-tip"><span>✦ MẸO NHỎ</span><p>Chú trọng độ chính xác trước. Tốc độ sẽ đến cùng sự luyện tập.</p></div><div class="version">PTR/1.0 <span>·</span> Network Programming</div></div>
+  </aside>
+  <div class="page">
+    <header class="topbar"><div class="crumb">KHÔNG GIAN LUYỆN TẬP <span>/</span> <strong id="crumbCurrent">Luyện gõ</strong></div><div class="top-right"><span class="online-indicator" id="connectionIndicator"></span><span id="connectionText">Offline practice</span><span class="user-chip" id="userChip">KS</span></div></header>
+    <main>
+      <section id="practiceScreen" class="screen shown">
+        <div class="eyebrow">BUILD YOUR SPEED <span class="dash"></span> ONE KEY AT A TIME</div>
+        <h1>Luyện gõ. <em>Tốt hơn mỗi ngày.</em></h1>
+        <p class="lede">Chọn kiểu luyện tập của bạn, giữ nhịp tay thoải mái và xem khả năng tiến bộ qua từng lượt.</p>
+        <div class="section-head"><div><span class="micro-title">01 / THIẾT LẬP</span><h2>Chọn thử thách</h2></div><span class="head-meta">PAGE OR TIME BASED</span></div>
+        <div class="mode-grid" id="modeGrid">
+          <button class="mode-card chosen" data-mode="time"><span class="mode-icon">◷</span><span class="mode-title">Theo thời gian</span><small>Gõ liên tục, đánh giá sau khi hết giờ.</small><span class="mode-check">✓</span></button>
+          <button class="mode-card" data-mode="page"><span class="mode-icon">▤</span><span class="mode-title">Theo số trang</span><small>Hoàn thành đoạn văn theo độ dài đã chọn.</small><span class="mode-check">✓</span></button>
+        </div>
+        <div class="length-row" id="lengthRow"></div>
+        <div class="typing-card">
+          <div class="typing-top"><div><span class="micro-title">02 / SẴN SÀNG GÕ</span><h2>Typing Studio</h2></div><div class="typing-actions"><button id="soundBtn" class="text-button" aria-label="Toggle sound">♪ <span id="soundText">Sound on</span></button><button id="restartBtn" class="text-button">↻ Làm lại</button></div></div>
+          <div class="metrics"><div class="metric"><span>THỜI GIAN</span><strong id="practiceClock">01:00</strong></div><div class="metric"><span>TỐC ĐỘ</span><strong><span id="practiceWpm">0</span> <small>WPM</small></strong></div><div class="metric"><span>CHÍNH XÁC</span><strong><span id="practiceAccuracy">100</span><small>%</small></strong></div><div class="metric"><span>TIẾN ĐỘ</span><strong><span id="practiceProgress">0</span><small>%</small></strong></div></div>
+          <div class="text-area" id="practiceText" role="button" tabindex="0" aria-label="Click to focus typing exercise"></div>
+          <div class="input-bar"><span><span class="pulse"></span> <span id="practiceHint">Nhấn vào đoạn văn và bắt đầu gõ để chạy đồng hồ</span></span><span>BACKSPACE TO CORRECT</span></div>
+          <div class="keyboard" id="practiceKeyboard" aria-hidden="true"></div>
+        </div>
+      </section>
+      <section id="raceScreen" class="screen">
+        <div class="eyebrow">REAL-TIME MULTIPLAYER <span class="dash"></span> UP TO 8 RACERS</div>
+        <h1>Race mode. <em>Ai nhanh hơn?</em></h1>
+        <p class="lede">Mỗi phòng dùng một đoạn văn chung. Server đồng bộ thời gian bắt đầu, xác thực tiến độ và xếp hạng người chơi.</p>
+        <div class="race-panel" id="raceLanding">
+          <div class="race-intro"><span class="race-illustration">⚡</span><span class="micro-title">KẾT NỐI PHÒNG ĐẤU</span><h2>Thách đấu bạn bè.</h2><p>Tạo phòng riêng, chia sẻ mã hoặc liên kết để mời bạn bè tham gia cùng một cuộc đua.</p></div>
+          <div class="race-form"><label for="playerName">TÊN HIỂN THỊ</label><input id="playerName" maxlength="20" autocomplete="nickname" placeholder="VD: SpeedyCat" value="Player"><button class="primary-btn" id="createBtn">⚡ Tạo phòng mới <span>→</span></button><div class="or-line"><span>HOẶC THAM GIA PHÒNG</span></div><label for="joinCode">MÃ PHÒNG (6 KÝ TỰ)</label><div class="join-row"><input id="joinCode" maxlength="6" placeholder="ABC123" autocomplete="off"><button class="secondary-btn" id="joinBtn">Tham gia →</button></div></div>
+        </div>
+        <div class="room-panel hidden" id="roomPanel">
+          <div class="room-head"><div><span class="micro-title">PHÒNG ĐẤU CỦA BẠN</span><div class="room-code"><strong id="roomCode">------</strong><button id="copyInviteBtn" class="outline-btn">⧉ Copy link</button></div></div><button class="outline-btn leave" id="leaveBtn">← Rời phòng</button></div>
+          <div class="phase-line"><span id="phaseLabel">Đang chờ người chơi</span><span id="playerCount">0/8 RACERS</span></div>
+          <div class="players" id="playersList"></div>
+          <div class="lobby-actions" id="lobbyActions"><button class="secondary-btn" id="readyBtn">✓ Sẵn sàng</button><button class="primary-btn" id="startBtn">Bắt đầu race →</button><span class="hint" id="lobbyHint">Cần ít nhất 2 người sẵn sàng</span></div>
+          <div class="race-editor hidden" id="raceEditor"><div class="race-stats"><span>THỜI GIAN <strong id="raceClock">0:00</strong></span><span>WPM <strong id="raceWpm">0</strong></span><span>TIẾN ĐỘ <strong id="raceProgress">0%</strong></span></div><div class="text-area" id="raceText" role="button" tabindex="0"></div><div class="input-bar"><span><span class="pulse"></span> <span id="raceHint">Nhấn vào đoạn văn để gõ</span></span><span>NO PASTE</span></div></div>
+          <div class="race-results hidden" id="raceResults"><h2>🏁 Cuộc đua kết thúc</h2><p>Xếp hạng theo thời gian hoàn thành chính xác được xác minh bởi server.</p><div id="raceRanking"></div><button id="newRoomBtn" class="secondary-btn">Quay lại sảnh</button></div>
+        </div>
+      </section>
+      <footer>KEYSPRINT <span>·</span> Designed for INT1433 Networking Project <span>·</span> Original practice content &amp; sounds</footer>
+    </main>
+  </div>
+</div>
+<div id="toast" class="toast hidden" role="status"></div>
+<script src="/assets/app.js" defer></script>
+</body>
+</html>
