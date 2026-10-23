@@ -10,3 +10,6 @@ This ZIP is a **file snapshot**, not a Git branch. Its `.git/` and `.env` are in
 6. Complete actual Team/Contribution/AI Disclosure in `README.md` and the team review/verification cells in `docs/ai-log.md`. Add real screenshots/logs to `docs/asset/` and check rubric items before M3.
 
 **Recommended first PR sequence:** protocol design/framing and tests; server race sessions and robustness; independent gateway and UI; Docker/manual evidence and documentation. Consult `docs/roadmap.md`.
+
+
+safnaerkghaergieoo argrei 
