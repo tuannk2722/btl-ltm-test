@@ -13,3 +13,4 @@ This ZIP is a **file snapshot**, not a Git branch. Its `.git/` and `.env` are in
 
 
 safnaerkghaergieoo argrei 
+sangriaguerig airgyei rui
